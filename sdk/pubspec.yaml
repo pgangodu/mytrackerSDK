@@ -1,7 +1,7 @@
 name: mytracker_sdk
 description: A Flutter plugin for MyTracker SDK. Supports iOS and Android.
 version: 3.0.0
-author: "My.com"
+author: "Praveen Gangodu"
 homepage: "https://tracker.my.com"
 
 environment:

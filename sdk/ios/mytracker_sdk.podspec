@@ -8,9 +8,9 @@ Pod::Spec.new do |s|
   s.license             = { :type => 'LGPL-3.0'}
   s.authors             = { 'My.com' => 'sdk_mytracker@corp.my.com' }
 
-  s.platform            = :ios, '9.0'
+  s.platform            = :ios, '15.0'
   s.source              = { :path => '.' }
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '15.0'
 
   s.source_files        = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
