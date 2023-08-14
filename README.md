@@ -1,8 +1,5 @@
 # myTracker Flutter SDK
 
-![Platforms][platforms-svg]
-[![License][license-svg]][license-link]
-
 * [General info](#general-info)
 * [Initialization](#initialization)
      * [Available-to-configure options](#available-to-configure-options)
@@ -17,7 +14,7 @@ myTracker is a multi-platform analytics and attribution system based on Mail.ru 
 
 ### Minimum requirements
 
-####Android
+#### Android
 * Android api level 14 (Android 4.0)
 * Permission `android.permission.INTERNET`
 * Permission `android.permission.ACCESS_NETWORK_STATE`
@@ -80,7 +77,7 @@ await MyTracker.initTracker(SDK_KEY);
 Tracker configuration can be done through an instance of the `MyTrackerConfig` class, accessible through the `MyTracker.getTrackerConfig()` method.
 Tracker parameters can be configured via an instance of the `MyTrackerParams` class, which is available via the `MyTracker.getTrackerParams()` method.
 
-####MyTrackerConfig
+#### MyTrackerConfig
 An instance of this class is responsible for the tracker configuration and provides the following methods.
 
 ```dart
@@ -198,7 +195,3 @@ MyTracker.trackEvent("name", {"key_0": "value_0", "key_1": "value_1"});
 Future flush()
 ```
 Force sending of all events and resetting the send timer.
-
-[license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
-[license-link]: https://github.com/myTrackerSDK/mytracker-flutter/blob/master/LICENSE
-[platforms-svg]: https://img.shields.io/badge/platform-Flutter-lightgrey.svg
