@@ -3,201 +3,201 @@
 ![Platforms][platforms-svg]
 [![License][license-svg]][license-link]
 
-* [Общая информация](#общая-информация)
-* [Инициализация](#инициализация)
-    * [Доступные для настройки параметры](#доступные-для-настройки-параметры)
-        * [MyTrackerConfig](#mytrackerconfig)
-        * [MyTrackerParams](#mytrackerparams)
-    * [Включение/выключение режима отладки](#включение/выключение-режима-отладки)
-* [События](#события)
+* [General info](#general-info)
+* [Initialization](#initialization)
+     * [Available-to-configure options](#available-to-configure-options)
+         * [MyTrackerConfig](#mytrackerconfig)
+         * [MyTrackerParams](#mytrackerparams)
+     * [Turn on/off debug mode](#turn on/off debug mode)
+* [Events](#events)
 
-## Общая информация
+## General information
 
-myTracker — Мультиплатформенная система аналитики и атрибуции на базе технологий Mail.ru Group.
+myTracker is a multi-platform analytics and attribution system based on Mail.ru Group technologies.
 
-### Минимальные требования
+### Minimum requirements
 
-#### Android
+####Android
 * Android api level 14 (Android 4.0)
-* Разрешение `android.permission.INTERNET`
-* Разрешение `android.permission.ACCESS_NETWORK_STATE`
+* Permission `android.permission.INTERNET`
+* Permission `android.permission.ACCESS_NETWORK_STATE`
 
-Обязательные зависимости, которые будет добавлены автоматически:
-* [Google Play Services](https://developers.google.com/android/guides/setup) (модуль com.google.android.gms:play-services-ads-identifier)
-* [Google Play Install Referrer](https://developer.android.com/google/play/installreferrer) (модуль com.android.installreferrer:installreferrer)
+Required dependencies that will be added automatically:
+* [Google Play Services](https://developers.google.com/android/guides/setup) (module com.google.android.gms:play-services-ads-identifier)
+* [Google Play Install Referrer](https://developer.android.com/google/play/installreferrer) (module com.android.installreferrer:installreferrer)
 
 #### iOS
-* Минимальная поддерживаемая версия iOS - 9.0
-* xCode версия 12.4 или выше
+* Minimum supported iOS version is 9.0
+* xCode version 12.4 or higher
 
-В случае, если необходимо получение информации об IDFA/IDFV на iOS 14+, то необходимо получение разрешения от пользователя.  
-Для решения, возможно использовать [App Tracking Transparency Plugin](https://pub.dev/packages/app_tracking_transparency). Или реализовать запрос разрешений самостоятельно.
+In case it is necessary to obtain information about IDFA / IDFV on iOS 14+, then permission from the user is required.
+For a solution, it is possible to use [App Tracking Transparency Plugin](https://pub.dev/packages/app_tracking_transparency). Or implement the permission request yourself.
 
-### Данные о местоположении
+### Location data
 
-Если необходим сбор данных о местоположении, то добавление разрешений на доступ к локации и запрос этих разрешений также является обязательным.  
-Для решения данной задачи можно воспользоваться [Location Permission Plugin](https://pub.dev/packages/location_permissions). Или реализовать запрос разрешений самостоятельно.
+If you need to collect location data, then adding permissions to access the location and requesting these permissions is also required.
+To solve this problem, you can use the [Location Permission Plugin](https://pub.dev/packages/location_permissions). Or implement the permission request yourself.
 
-### Приложения для Huawei App Store
-Если вы делаете сборку приложения для [Huawei App Store](https://appstore.huawei.com/), то обязательно наличие в проекте подключенной библиотеки
+### Apps for Huawei App Store
+If you are building an application for [Huawei App Store](https://appstore.huawei.com/), then the library must be included in the project
 [Huawei Media Services](https://developer.huawei.com/consumer/en/service/hms/catalog/pps_document.html?page=hmssdk_huaweipps_devprepare_download_SDK)
-(модуль com.huawei.hms:hms-ads-identifier), для того, чтобы myTracker мог получить
+(module com.huawei.hms:hms-ads-identifier), so that myTracker can get
 [OAID](https://developer.huawei.com/consumer/en/service/hms/catalog/pps_document.html?page=hmssdk_huaweipps_introduction).
 
-## Подключение
+## Connection
 
-Скачайте SDK, добавьте его в ваш проект по некоторому пути `PATH_TO_SDK` и укажите его в качестве зависимости в `pubspec.yaml` вашего приложения:
+Download the SDK, add it to your project in some `PATH_TO_SDK` path, and specify it as a dependency in your application's `pubspec.yaml`:
 ```yaml
 dependencies:
-  ...
-  mytracker_sdk:
-    path: PATH_TO_SDK
-  ...
+   ...
+   mytracker_sdk:
+     path: PATH_TO_SDK
+   ...
 ```
 
-## Инициализация
+## Initialization
 
-При инициализации трекера необходимо указать ваш appId.
-При необходимости до инициализации, можно выполнить дополнительную конфигурацию трекера и параметров.  
-Активность приложения (запуски, сессии) отслеживается автоматически.
+When initializing the tracker, you must specify your appId.
+If necessary, before initialization, you can perform additional configuration of the tracker and parameters.
+Application activity (launches, sessions) is tracked automatically.
 
 ```dart
-// При необходимости настраиваем параметры
+// If necessary, set the parameters
 MyTrackerParams trackerParams = await MyTracker.getTrackerParams();
 MyTrackerParams trackerConfig = await MyTracker.getTrackerConfig();
 
 // ...
-// Настройка параметров трекера
+// Setting tracker parameters
 // ...
 
-// Инициализируем экземпляр
-await MyTracker.init(SDK_KEY);
+// Initialize the instance
+await MyTracker.initTracker(SDK_KEY);
 ```
 
 
-### Доступные для настройки параметры
+### Parameters available for setting
 
-Конфигурацию трекера можно произвести через экземпляр класса `MyTrackerConfig`, доступный через метод `MyTracker.getTrackerConfig()`.  
-Параметры трекера можно настроить через экземпляр класса `MyTrackerParams`, который доступен через метод `MyTracker.getTrackerParams()`.
+Tracker configuration can be done through an instance of the `MyTrackerConfig` class, accessible through the `MyTracker.getTrackerConfig()` method.
+Tracker parameters can be configured via an instance of the `MyTrackerParams` class, which is available via the `MyTracker.getTrackerParams()` method.
 
-#### MyTrackerConfig
-Экземпляр данного класса отвечает за конфигурацию трекера и предоставляет следующие методы.
+####MyTrackerConfig
+An instance of this class is responsible for the tracker configuration and provides the following methods.
 
 ```dart
 Future<MyTrackerConfig> setTrackingLaunchEnabled(boolean trackingLaunchEnabled)
 ```
-Отслеживание запусков приложения. По умолчанию true.
+Application launch tracking. The default is true.
 
 ```dart
 Future<MyTrackerConfig> setLaunchTimeout(int seconds)
 ```
-Интервал в секундах, в течение которого не будет засчитываться новый запуск и прерываться сессия при сворачивании приложения.  
-По умолчанию 30 секунд. Можно установить значение в диапазоне 30-7200 секунд.
+Interval in seconds during which a new launch will not be counted and the session will not be terminated when the application is minimized.
+The default is 30 seconds. You can set the value in the range of 30-7200 seconds.
 
 ```dart
 Future<MyTrackerConfig> setBufferingPeriod(int seconds)
 ```
-Интервал в секундах, в течение которого события будут накапливаться на устройстве перед отправкой на сервер.  
-По умолчанию 900 секунд. Можно установить значение в диапазоне 1-86400 секунд.
+Interval in seconds during which events will be accumulated on the device before being sent to the server.
+The default is 900 seconds. You can set the value in the range of 1-86400 seconds.
 
 ```dart
 Future<MyTrackerConfig> setForcingPeriod(int seconds)
 ```
-Интервал в секундах после установки или обновления приложения, в течение которого события будут незамедлительно отправляться на сервер.  
-По умолчанию 0 секунд (незамедлительная отправка выключена). Можно установить значение в диапазоне 0-432000 секунд (5 суток).
+Interval in seconds after installing or updating an application during which events will be immediately sent to the server.
+The default is 0 seconds (immediate send disabled). You can set the value in the range 0-432000 seconds (5 days).
 
 ```dart
 Future<MyTrackerConfig> setAutotrackingPurchaseEnabled(boolean autotrackingPurchaseEnabled)
 ```
-Автоматическое отслеживание покупок в приложении.  
-По умолчанию true.
+Automatic tracking of in-app purchases.
+The default is true.
 
 ```dart
 Future<MyTrackerConfig> setTrackingLocationEnabled(boolean trackingLocationEnabled)
 ```
-Отслеживание местоположения.  
-По умолчанию true.
+Location tracking.
+The default is true.
 
 ```dart
 Future<MyTrackerConfig> setRegion(MyTrackerRegion region)
 ```
-Установка региона сервера приёма данных.   
-Доступные значения:
-* MyTrackerRegion.EU - Европа.
-* MyTrackerRegion.RU - РФ.
+Setting the region of the data receiving server.
+Available values:
+* MyTrackerRegion.EU - Europe.
+* MyTrackerRegion.RU - RF.
 
 ```dart
 Future<MyTrackerConfig> setProxyHost(@Nullable String proxyHost)
 ```
-Установка прокси-хоста сервера приёма данных.
+Setting the proxy host of the data receiving server.
 
 #### MyTrackerParams
-Экземпляр данного класса предназначен для настройки пользовательских параметров.
+An instance of this class is intended for setting user parameters.
 
-Пользовательские параметры могут быть установлены в любой момент работы приложения.
+User parameters can be set at any time during the application's runtime.
 
-```dart 
-Future setUserInfo() async
+```dart
+future setUserInfo() async
 {
-    MyTrackerParams trackerParams = await MyTracker.getTrackerParams();
+     MyTrackerParams trackerParams = await MyTracker.getTrackerParams();
      
-    // Устанавливаем пол
-    await trackerParams.setAge(22);
-    // Устанавливаем возраст
-    await trackerParams.setGender(MyTrackerGender.FEMALE);
-    // Устанавливаем айди
-    trackerParams.setCustomUserIds(["user_id_0", "user_id_1"]);
-    //Устанавливаем адреса электронной почты
-    trackerParams.setEmails(["address1@example.com", "address2@example.com"]);
-    //Устанавливаем номера телефонаов
-    trackerParams.setPhones(["84953332211", "84953332212", "84953332213"]);
+     // Set the floor
+     await trackerParams.setAge(22);
+     // Set the age
+     await trackerParams.setGender(MyTrackerGender.FEMALE);
+     // Set id
+     trackerParams.setCustomUserIds(["user_id_0", "user_id_1"]);
+     //Set email addresses
+     trackerParams.setEmails(["address1@example.com", "address2@example.com"]);
+     // Set phone numbers
+     trackerParams.setPhones(["84953332211", "84953332212", "84953332213"]);
 }
 ```
 
-### Включение/выключение режима отладки
-Включение/выключение режима отладки производится через статические методы класса MyTracker.
+### Enable/disable debug mode
+Enabling/disabling the debugging mode is done through the static methods of the MyTracker class.
 
 ```dart
 Future setDebugMode(boolean debugMode)
 ```
-Включение/выключение режима отладки.  
-По умолчанию false.
+Enable/disable debug mode.
+The default is false.
 
-## Трекинг событий
-События можно отправлять через статические методы класса MyTracker.  
-Доступны следующие методы для трекинга различных типов событий:
+## Event tracking
+Events can be sent via static methods of the MyTracker class.
+The following methods are available for tracking different types of events:
 
-```dart 
+```dart
 Future trackLoginEvent(String userId, Map<String, String>? eventParams)
 ```
-Событие логина.  
-Обязательный параметр userId задаёт идентификатор пользователя.  
-Дополнительный параметр eventParams позволяет задать произвольные параметры ключ-значение для события.  
-Максимальная длина ключа и значения - 255 символов.
+Login event.
+The required parameter userId specifies the user ID.
+The optional eventParams parameter allows you to set arbitrary key-value parameters for the event.
+The maximum length of the key and value is 255 characters.
 
-```dart  
+```dart
 Future trackRegistrationEvent(String userId, Map<String, String>? eventParams)
 ```
-Событие регистрации.  
-Обязательный параметр userId задаёт идентификатор пользователя.  
-Дополнительный параметр eventParams позволяет задать произвольные параметры ключ-значение для события.  
-Максимальная длина ключа и значения - 255 символов.
+Registration event.
+The required parameter userId specifies the user ID.
+The optional eventParams parameter allows you to set arbitrary key-value parameters for the event.
+The maximum length of the key and value is 255 characters.
 
-```dart 
+```dart
 Future trackEvent(String name, Map<String, String>? eventParams)
 ```
-Произвольное событие с заданным именем.  
-Дополнительный параметр eventParams позволяет задать произвольные параметры ключ-значение для события.  
-Максимальная длина ключа и значения - 255 символов.  
-Например:
-```dart 
+An arbitrary event with the given name.
+The optional eventParams parameter allows you to set arbitrary key-value parameters for the event.
+The maximum length of the key and value is 255 characters.
+For example:
+```dart
 MyTracker.trackEvent("name", {"key_0": "value_0", "key_1": "value_1"});
 ```
 
-```dart 
+```dart
 Future flush()
 ```
-Принудительная отправка всех событий и сброс таймера отправки.
+Force sending of all events and resetting the send timer.
 
 [license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
 [license-link]: https://github.com/myTrackerSDK/mytracker-flutter/blob/master/LICENSE
