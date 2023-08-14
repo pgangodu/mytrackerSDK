@@ -2,14 +2,14 @@ group 'com.my.tracker.flutter'
 version '1.0'
 
 buildscript {
-    ext.kotlin_version = '1.5.21'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -47,6 +47,7 @@ android {
     lint {
         disable 'InvalidPackage'
     }
+
 }
 
 dependencies {
